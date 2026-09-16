@@ -1,14 +1,16 @@
-import { use } from "react";
+import { use, useState } from "react";
 import AvailableTechnology from "./AvailableTechnology";
 import type { ITechnology } from "./TechnologiesType";
 
 interface TechnologyProps {
     technologiesPromise: Promise<ITechnology[]>;
+  
 }
 
 const Technologies = ({ technologiesPromise }: TechnologyProps) => {
     
     const technologies = use(technologiesPromise);
+    const [selectedTechnology,setSelectedTechnology]=useState([])
 
     return (
         <section className="max-w-7xl mx-auto px-4 py-8">
@@ -23,7 +25,7 @@ const Technologies = ({ technologiesPromise }: TechnologyProps) => {
             </div>
 
          
-            <AvailableTechnology Technologies={technologies} />
+            <AvailableTechnology Technologies={technologies} selectedTechnology={selectedTechnology} setSelectedTechnology={setSelectedTechnology} />
         </section>
     );
 };

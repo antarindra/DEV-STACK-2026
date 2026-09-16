@@ -1,46 +1,50 @@
-import { useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import type { ITechnology } from './TechnologiesType';
 import { FcRating } from 'react-icons/fc';
-import { Bounce, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 interface ICard {
     Technologies: ITechnology[];
+    selectedTechnology: ITechnology[];
+    setSelectedTechnology: Dispatch<SetStateAction<ITechnology[]>>;
 }
 
-const TechnologyCard = ({ Technologies }: ICard) => {
+const TechnologyCard = ({ Technologies, selectedTechnology, setSelectedTechnology }: ICard) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {Technologies.map((technology: ITechnology) => (
-                <SingleCard key={technology.name} technology={technology} />
+                <SingleCard
+                    key={technology.name}
+                    technology={technology}
+                    selectedTechnology={selectedTechnology}
+                    setSelectedTechnology={setSelectedTechnology}
+                />
             ))}
         </div>
     );
 };
 
-
-const SingleCard = ({ technology }: { technology: ITechnology }) => {
-
-    const [isSelected, setIsSelected] = useState(false);
-    const handleTechnology=()=>{
-        setIsSelected(true);
-        if(isSelected===false){
-           toast.success(`${technology.name} is added successfully`, {
-position: "bottom-right",
-autoClose: 5000,
-hideProgressBar: false,
-closeOnClick: false,
-pauseOnHover: true,
-draggable: true,
-progress: undefined,
-theme: "colored",
-transition: Bounce
-});
-
-          }
-        
-
-    };
+const SingleCard = ({
+    technology,
+    selectedTechnology,
+    setSelectedTechnology,
+}: {
+    technology: ITechnology;
+    selectedTechnology: ITechnology[];
+    setSelectedTechnology: Dispatch<SetStateAction<ITechnology[]>>;
+}) => {
     
+    const isExist = selectedTechnology.some((item) => item.name === technology.name);
+
+    const handleAdd = () => {
+        if (isExist) {
+            toast.warning(`${technology.name} is already in your stack!`);
+            return;
+        }
+
+        setSelectedTechnology([...selectedTechnology, technology]);
+        toast.success(`${technology.name} added to stack!`);
+    };
 
     return (
         <div className="card bg-base-100 shadow-sm border border-gray-100 p-4">
@@ -62,11 +66,13 @@ transition: Bounce
                 </ul>
 
                 <button
-                    onClick={() => handleTechnology()}
-                    className={`btn btn-neutral btn-sm w-full mt-2`}
-                    disabled={isSelected}
+                    onClick={handleAdd}
+                    disabled={isExist}
+                    className={`btn btn-sm w-full mt-2 ${
+                        isExist ? 'btn-disabled bg-gray-200 text-gray-500' : 'btn-neutral'
+                    }`}
                 >
-                    {isSelected ? "✓ Added to Stack" : "Add to Stack"}
+                    {isExist ? "✓ Added to Stack" : "Add to Stack"}
                 </button>
             </div>
         </div>
