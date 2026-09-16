@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Logo from '../assets/logo-text.png';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { RxCross2 } from 'react-icons/rx';
 
 
 const Nav = () => {
@@ -17,7 +18,7 @@ const Nav = () => {
                         className="text-gray-700 hover:text-black focus:outline-none p-1 text-2xl"
                     >
                         
-                        {isMobile!==true?<GiHamburgerMenu />:null}
+                        {isMobile!==true?<GiHamburgerMenu />:<RxCross2/>}
                     </button>
                 </div>
 

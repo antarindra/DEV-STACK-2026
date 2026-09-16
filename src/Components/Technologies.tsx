@@ -10,7 +10,7 @@ interface TechnologyProps {
 const Technologies = ({ technologiesPromise }: TechnologyProps)=> {
     
     const technologies = use(technologiesPromise);
-    const [selectedTechnology,setSelectedTechnology]=useState([])
+   const [selectedTechnology, setSelectedTechnology] = useState<ITechnology[]>([]);
 
     return (
         <section className="max-w-7xl mx-auto px-4 py-8">
