@@ -7,7 +7,7 @@ interface TechnologyProps {
   
 }
 
-const Technologies = ({ technologiesPromise }: TechnologyProps) => {
+const Technologies = ({ technologiesPromise }: TechnologyProps)=> {
     
     const technologies = use(technologiesPromise);
     const [selectedTechnology,setSelectedTechnology]=useState([])
